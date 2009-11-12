@@ -57,12 +57,10 @@ module PlainView
         v = StringIO.new
 
         v.print "  create_view #{view.inspect}"
-        v.print ", #{@connection.view_select_statement(view).dump}"
-        v.print ", :force => true"
         v.puts " do |v|"
 
         columns.each do |column|
-          v.print "    v.column :#{column}"
+          v.print "    v.select , #{@connection.view_select_statement(view).dump}"
           v.puts
         end
 
