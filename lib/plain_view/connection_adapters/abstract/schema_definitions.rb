@@ -2,12 +2,40 @@ module PlainView
   module ConnectionAdapters #:nodoc:
     # Abstract definition of a View
     class ViewDefinition
-      attr_accessor :columns, :select_query, :base_model
+      attr_accessor :columns, :select_query, :base_model, :algorithm, :security, :check_option
+      
+      ALGO_TYPES = [:merge, :temptable]
+      SECURITY_TYPES = [:definer, :invoker]
+      CHECK_OPTIONS = [:cascaded, :local]
       
       def initialize(base)
         @columns = []
         @base = base
         @select_query = ''
+      end
+      
+      def use_algorithm(algo_type)
+        @algorithm = algo_type.to_s.upcase if ALGO_TYPES.include?(algo_type.to_sym)
+      end
+      
+      def has_algorithm?
+        @algorithm.present?
+      end
+      
+      def use_security_mode(security_type)
+        @security = security_type.to_s.upcase if SECURITY_TYPES.include?(security_type.to_sym)
+      end
+      
+      def has_security?
+        @security.present?
+      end
+      
+      def use_check_option(check_option)
+        @check_option = check_option.to_s.upcase if CHECK_OPTIONS.include?(check_option.to_sym)
+      end
+      
+      def has_check_option?
+        @check_option.present?
       end
       
       def column(name)

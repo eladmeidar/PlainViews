@@ -21,6 +21,12 @@ module PlainView
           end
 
           create_sql = "CREATE VIEW "
+          if view_definition.has_algorithm?
+            create_sql << "ALGORITHM=#{view_definition.algorithm} "
+          end
+          if view_definition.has_security?
+            create_sql << "SQL SECURITY #{view_definition.security} "
+          end
           create_sql << "#{quote_table_name(name)} "
           if supports_view_columns_definition? && !view_definition.to_sql.blank?
             create_sql << "("
@@ -28,7 +34,9 @@ module PlainView
             create_sql << ") " 
           end
           create_sql << "AS #{view_definition.select_query}"
-          create_sql << " WITH #{options[:check_option]} CHECK OPTION" if options[:check_option]
+          if view_definition.has_check_option?
+            create_sql << " WITH #{view_definition.check_option} CHECK OPTION"
+          end
           execute create_sql
         end
       end
