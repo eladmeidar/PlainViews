@@ -1,1 +1,2 @@
-# PlainViews
+module PlainViews
+end
