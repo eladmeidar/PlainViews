@@ -7,7 +7,7 @@ module PlainView
       def initialize(base)
         @columns = []
         @base = base
-        @select_query = select_query
+        @select_query = ''
       end
       
       def column(name)
@@ -21,7 +21,9 @@ module PlainView
       end
       
       def to_sql
-        @columns.collect { |c| @base.quote_column_name(c) } * ', '
+        if @columns.any?
+          @columns.collect { |c| @base.quote_column_name(c) } * ', '
+        end
       end
       
     end

@@ -12,7 +12,7 @@ module PlainView
       #   values: CASCADED and LOCAL. See your database documentation for allowed values.
       def create_view(name, options={})
         if supports_views?
-          view_definition = ViewDefinition.new(self, select_query)
+          view_definition = ViewDefinition.new(self)
 
           yield view_definition
 
