@@ -2,7 +2,7 @@ module PlainView
   module ConnectionAdapters #:nodoc:
     # Abstract definition of a View
     class ViewDefinition
-      attr_accessor :columns, :select_query
+      attr_accessor :columns, :select_query, :base_model
       
       def initialize(base)
         @columns = []
@@ -16,8 +16,22 @@ module PlainView
         self
       end
       
+      def base_model(base_model)
+        begin
+          @base_model = base_model.to_s.camelize.constantize
+        rescue
+          raise "base_model given #{base_model} is not an ActiveRecord descendent"
+        end
+      end
+      
       def select(select_query)
-        @select_query = select_query
+        if select_query.is_a?(Hash)
+          raise "You must specify a base model if you use the ActiveRecord find conventions" if @base_model.blank?
+          
+          @select_query = @base_model.send(:construct_finder_sql, select_query)
+        elsif select_query.is_a?(String)
+          @select_query = select_query
+        end
       end
       
       def to_sql
