@@ -4,7 +4,7 @@ module PlainView
     class ViewDefinition
       attr_accessor :columns, :select_query
       
-      def initialize(base, select_query)
+      def initialize(base)
         @columns = []
         @base = base
         @select_query = select_query
@@ -14,6 +14,10 @@ module PlainView
         column = name.to_s
         @columns << column unless @columns.include? column
         self
+      end
+      
+      def select(select_query)
+        @select_query = select_query
       end
       
       def to_sql
