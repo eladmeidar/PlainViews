@@ -60,7 +60,7 @@ module PlainView
         v.puts " do |v|"
 
 
-        v.puts "    v.select , #{@connection.view_select_statement(view).dump}"
+        v.puts "    v.select #{@connection.view_select_statement(view).dump}"
 
         v.puts "  end"
         v.puts

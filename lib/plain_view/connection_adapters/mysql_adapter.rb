@@ -1,5 +1,11 @@
 module PlainView
   module ConnectionAdapters
+    module SchemaStatements
+      def self.included(base)
+        base.alias_method_chain :drop_table, :cascade
+      end
+    end
+    
     module MysqlAdapter
       def self.included(base)
         if base.private_method_defined?(:supports_views?)

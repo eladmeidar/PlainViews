@@ -1,0 +1,38 @@
+sqlite:
+  adapter: sqlite
+  database: ':memory:'
+
+sqlite3:
+  adapter: sqlite3
+  database: ':memory:'
+
+postgresql:
+  adapter: postgresql
+  username: postgres
+  password: postgres
+  database: plainview_plugin_test
+  min_messages: ERROR
+
+mysql:
+  adapter: mysql
+  host: localhost
+  username: rails
+  password:
+  database: plainview_plugin_test
+  
+oracle:
+  adapter: oracle
+  host: localhost/xe
+  username: rails
+  password:
+
+oci:
+  adapter: oci
+  host: localhost/xe
+  username: rails
+  password:
+
+sqlserver:
+  adapter: sqlserver
+  mode: ODBC
+  dsn: 'DRIVER=/usr/local/lib/libtdsodbc.so;TDS_Version=8.0;SERVER=Your_Server_Name;DATABASE=Your_Database_Name;Port=1433;uid=Your_UID;pwd=Your_PWD;'

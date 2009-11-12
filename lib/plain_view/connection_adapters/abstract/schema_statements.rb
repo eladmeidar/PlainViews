@@ -1,9 +1,6 @@
 module PlainView
   module ConnectionAdapters # :nodoc:
     module SchemaStatements
-      def self.included(base)
-        base.alias_method_chain :drop_table, :cascade
-      end
 
       # Create a view.
       # The +options+ hash can include the following keys:
