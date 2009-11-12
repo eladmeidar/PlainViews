@@ -59,10 +59,8 @@ module PlainView
         v.print "  create_view #{view.inspect}"
         v.puts " do |v|"
 
-        columns.each do |column|
-          v.print "    v.select , #{@connection.view_select_statement(view).dump}"
-          v.puts
-        end
+
+        v.puts "    v.select , #{@connection.view_select_statement(view).dump}"
 
         v.puts "  end"
         v.puts
