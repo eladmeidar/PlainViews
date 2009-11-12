@@ -1,0 +1,59 @@
+h1. PlainView
+
+PlainView adds another tool to your Rails migrations toolkit @create_view@ (and @drop_view@ of course).
+which will allow you to harness the power of "database views":http://en.wikipedia.org/wiki/View_(database) in your application.
+
+
+h3. Installation
+
+as for now this is only available as a plugin, install as follows:
+<pre>script/plugin install git://github.com/eladmeidar/PlainViews.git</pre>
+
+h3. Usage
+
+First you'll have to generate a migration
+<pre>script/generate migration create_users_and_views</pre>
+
+Than, on @self.up@ you can use the @create_view@ helper:
+<pre>class TestView < ActiveRecord::Migration
+  def self.up
+    create_view :v_people do |t|
+      t.base_model :user
+      t.select :select => 'id, name', :conditions => {:name => 'elad'}
+      t.use_security_mode :definer
+      t.use_algorithm :merge
+      t.use_check_option :cascaded
+    end
+  end
+
+  def self.down
+    drop_view :v_people
+  end
+end</pre>
+
+* *select* - required, select is the actual select statement, you can either use ActiveRecord#find conventions or specify a plain test query.
+* *base_mode* this is used only if you use the ActiveRecord conventions on the *select* statement, otherwise it is not required
+* *use_security* - i don't know if this is supported on all databases, but in MySQL you can choose either @:merge@ or @:temptable@.
+* *use_algorithm* - again, don't know if this is a cross DBMS option but on MySQL you can choose between @:definer@ or @:invoker@
+* *check_option*  - same deal, on MySQL you can choose between @:cascaded@ and @:local@
+
+h3. Database support
+
+I investigated a bit, and the basic usage (@select@ / @base_model@) should run successfully on:
+
+* MySQL
+* OCI
+* Oracle
+* Postgresql
+* SQLite
+* SQLServer
+
+although i was unable to actually test it on all of them, help is appreciated here :)
+
+h3. Tests
+
+Not yet actually, there will be some soon.
+
+h3. Todos
+
+Tests!
