@@ -10,7 +10,7 @@ module PlainView
       # [<tt>:check_option</tt>]
       #   Specify restrictions for inserts or updates in updatable views. ANSI SQL 92 defines two check option
       #   values: CASCADED and LOCAL. See your database documentation for allowed values.
-      def create_view(name, select_query, options={})
+      def create_view(name, options={})
         if supports_views?
           view_definition = ViewDefinition.new(self, select_query)
 
