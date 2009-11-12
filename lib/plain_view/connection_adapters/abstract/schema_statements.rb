@@ -20,14 +20,14 @@ module PlainView
             drop_view(name) rescue nil
           end
 
-          create_sql = "CREATE VIEW "
+          create_sql = "CREATE "
           if view_definition.has_algorithm?
             create_sql << "ALGORITHM=#{view_definition.algorithm} "
           end
           if view_definition.has_security?
             create_sql << "SQL SECURITY #{view_definition.security} "
           end
-          create_sql << "#{quote_table_name(name)} "
+          create_sql << "VIEW #{quote_table_name(name)} "
           if supports_view_columns_definition? && !view_definition.to_sql.blank?
             create_sql << "("
             create_sql << view_definition.to_sql
