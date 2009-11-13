@@ -52,8 +52,8 @@ although i was unable to actually test it on all of them, help is appreciated he
 
 h3. Tests
 
-Not yet actually, there will be some soon.
+Run @rake@. select the db you want to test by using an env var
+<pre>> DB=mysql rake</pre>
+don't forget to update the plugin's @database.yml@ in @test/config@
 
 h3. Todos
-
-Tests!

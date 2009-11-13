@@ -2,7 +2,7 @@ module PlainView
   module ConnectionAdapters #:nodoc:
     # Abstract definition of a View
     class ViewDefinition
-      attr_accessor :columns, :select_query, :base_model, :algorithm, :security, :check_option
+      attr_accessor :columns, :select_query, :base_model, :raw_sql, :algorithm, :security, :check_option
       
       ALGO_TYPES = [:merge, :temptable]
       SECURITY_TYPES = [:definer, :invoker]
@@ -16,6 +16,10 @@ module PlainView
       
       def use_algorithm(algo_type)
         @algorithm = algo_type.to_s.upcase if ALGO_TYPES.include?(algo_type.to_sym)
+      end
+      
+      def use_raw_sql(raw_sql)
+        @raw_sql = raw_sql
       end
       
       def has_algorithm?

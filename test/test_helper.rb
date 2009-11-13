@@ -44,9 +44,10 @@ end
 
 class Test::Unit::TestCase
   def create_user_company_view
-    ActiveRecord::Base.connection.create_view :v_user_company do |v|
+    ActiveRecord::Base.connection.drop_view(:v_user_companies) rescue nil
+    ActiveRecord::Base.connection.create_view :v_user_companies do |v|
       v.base_model :user
-      v.select :include => :company
+      v.select :select => 'users.email as email, companies.name as company_name', :joins => "LEFT JOIN companies on users.id = companies.owner_id"
     end
   end
 end

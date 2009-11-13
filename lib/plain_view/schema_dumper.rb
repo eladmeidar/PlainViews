@@ -20,7 +20,7 @@ module PlainView
     def dump_with_views(stream)
       dump_without_views(stream)
       begin
-        if @connection.supports_views?
+        if @connection.send(:supports_views?)
           views(stream)
         end
       rescue => e
@@ -57,10 +57,10 @@ module PlainView
         v = StringIO.new
 
         v.print "  create_view #{view.inspect}"
-        v.puts " do |v|"
+        v.puts ", :force => true do |v|"
 
 
-        v.puts "    v.select #{@connection.view_select_statement(view).dump}"
+        v.puts "    v.use_raw_sql '#{@connection.view_select_statement(view)}'"
 
         v.puts "  end"
         v.puts

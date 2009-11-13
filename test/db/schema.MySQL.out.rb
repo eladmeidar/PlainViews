@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_view "v_user_companies", :force => true do |v|
-    v.use_raw_sql 'CREATE VIEW "v_user_companies" AS SELECT users.email as email, companies.name as company_name FROM "users"  LEFT JOIN companies on users.id = companies.owner_id'
+    v.use_raw_sql 'CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_user_companies` AS select `users`.`email` AS `email`,`companies`.`name` AS `company_name` from (`users` left join `companies` on((`users`.`id` = `companies`.`owner_id`)))'
   end
 
 end

@@ -16,7 +16,7 @@ postgresql:
 mysql:
   adapter: mysql
   host: localhost
-  username: rails
+  username: root
   password:
   database: plainview_plugin_test
   

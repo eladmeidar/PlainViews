@@ -16,24 +16,29 @@ module PlainView
           if options[:force]
             drop_view(name) rescue nil
           end
-
-          create_sql = "CREATE "
-          if view_definition.has_algorithm?
-            create_sql << "ALGORITHM=#{view_definition.algorithm} "
+          
+          if view_definition.raw_sql.present?
+            create_sql = view_definition.raw_sql
+          else
+            create_sql = "CREATE "
+            if view_definition.has_algorithm?
+              create_sql << "ALGORITHM=#{view_definition.algorithm} "
+            end
+            if view_definition.has_security?
+              create_sql << "SQL SECURITY #{view_definition.security} "
+            end
+            create_sql << "VIEW #{quote_table_name(name)} "
+            if supports_view_columns_definition? && !view_definition.to_sql.blank?
+              create_sql << "("
+              create_sql << view_definition.to_sql
+              create_sql << ") " 
+            end
+            create_sql << "AS #{view_definition.select_query}"
+            if view_definition.has_check_option?
+              create_sql << " WITH #{view_definition.check_option} CHECK OPTION"
+            end
           end
-          if view_definition.has_security?
-            create_sql << "SQL SECURITY #{view_definition.security} "
-          end
-          create_sql << "VIEW #{quote_table_name(name)} "
-          if supports_view_columns_definition? && !view_definition.to_sql.blank?
-            create_sql << "("
-            create_sql << view_definition.to_sql
-            create_sql << ") " 
-          end
-          create_sql << "AS #{view_definition.select_query}"
-          if view_definition.has_check_option?
-            create_sql << " WITH #{view_definition.check_option} CHECK OPTION"
-          end
+          
           execute create_sql
         end
       end

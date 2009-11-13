@@ -23,6 +23,7 @@ module PlainView
         execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE'").each{|row| tables << row[0]}
         tables
       end
+      
       alias nonview_tables base_tables
       
       def views(name = nil) #:nodoc:
@@ -47,8 +48,9 @@ module PlainView
       # Get the view select statement for the specified table.
       def view_select_statement(view, name=nil)
         begin
+
           row = execute("SHOW CREATE VIEW #{view}", name).each do |row|
-            return convert_statement(row[1]) if row[0] == view
+            return row[1] #convert_statement(row[1]) if row[0] == view
           end
         rescue ActiveRecord::StatementInvalid => e
           raise "No view called #{view} found"
