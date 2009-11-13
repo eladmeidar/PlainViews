@@ -38,6 +38,7 @@ end</pre>
 * *use_security* - i don't know if this is supported on all databases, but in MySQL you can choose either @:merge@ or @:temptable@.
 * *use_algorithm* - again, don't know if this is a cross DBMS option but on MySQL you can choose between @:definer@ or @:invoker@
 * *check_option*  - same deal, on MySQL you can choose between @:cascaded@ and @:local@
+* *use_raw_sql* - if you use this, all other options are not taken into consideration, use this to use raw sql for your view just like AR's @find_by_sql*
 
 h2. creating a model
 
@@ -49,6 +50,8 @@ Note that the view model inherits from @ActiveRecord::View@ and not from @Active
 <pre>class ThisIsAView < ActiveRecord::View
   set_table_name 'special_view_name'
 end</pre>
+
+By default you can't add/remove/update records on the view since not all DBMS support that. you can easily override the @readonly@ method if you fill like it.
 
 h3. Database support
 
