@@ -12,6 +12,7 @@ as for now this is only available as a plugin, install as follows:
 h3. Usage
 
 h2. create a migration
+
 First you'll have to generate a migration
 <pre>script/generate migration create_users_and_views</pre>
 
@@ -46,7 +47,7 @@ you can always name it whatever you want and specify the view name in @set_table
 Note that the view model inherits from @ActiveRecord::View@ and not from @ActiveRecord::Base@:
 
 <pre>class ThisIsAView < ActiveRecord::View
-	set_table_name 'special_view_name'
+  set_table_name 'special_view_name'
 end</pre>
 
 h3. Database support
