@@ -11,6 +11,7 @@ as for now this is only available as a plugin, install as follows:
 
 h3. Usage
 
+h2. create a migration
 First you'll have to generate a migration
 <pre>script/generate migration create_users_and_views</pre>
 
@@ -36,6 +37,17 @@ end</pre>
 * *use_security* - i don't know if this is supported on all databases, but in MySQL you can choose either @:merge@ or @:temptable@.
 * *use_algorithm* - again, don't know if this is a cross DBMS option but on MySQL you can choose between @:definer@ or @:invoker@
 * *check_option*  - same deal, on MySQL you can choose between @:cascaded@ and @:local@
+
+h2. creating a model
+
+based on the name you chose to your view, you can create a model based on the existing rails naming conventions, 
+you can always name it whatever you want and specify the view name in @set_table_name@.
+
+Note that the view model inherits from @ActiveRecord::View@ and not from @ActiveRecord::Base@:
+
+<pre>class ThisIsAView < ActiveRecord::View
+	set_table_name 'special_view_name'
+end</pre>
 
 h3. Database support
 
